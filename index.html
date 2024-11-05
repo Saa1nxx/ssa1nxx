@@ -3,39 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Чат-приложение</title>
+    <title>Чат Приложение</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
+            background-color: #1A1A2E;
+            color: white;
             font-family: 'Montserrat', sans-serif;
-            background-color: #001F3F; /* Темно-синий фон */
-            color: white; /* Белый текст */
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             height: 100vh;
         }
+        header {
+            padding: 10px;
+            text-align: center;
+            background-color: #16213E;
+            font-size: 24px;
+        }
         .chat-container {
             flex: 1;
-            padding: 20px;
             overflow-y: auto;
-            border: 1px solid #0056b3; /* Цвет рамки */
-            border-radius: 10px;
-            background-color: #002a5c; /* Более светлый темно-синий */
+            padding: 20px;
+            background-color: #0F3460;
+            border-top: 1px solid #e1e1e1;
         }
         .message {
-            margin-bottom: 15px;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
         }
-        .nickname {
-            font-weight: bold;
-            color: #66afe9; /* Цвет никнейма */
+        .my-message {
+            background-color: #4ECDC4;
+            align-self: flex-end;
+        }
+        .other-message {
+            background-color: #e94560;
+            align-self: flex-start;
         }
         .input-container {
             display: flex;
-            justify-content: space-between;
             padding: 10px;
-            border-top: 1px solid #0056b3; /* Цвет разделительной линии */
+            background-color: #16213E;
+            border-top: 1px solid #e1e1e1;
         }
         input[type="text"] {
             flex: 1;
@@ -43,60 +54,61 @@
             border: none;
             border-radius: 5px;
             margin-right: 10px;
+            font-size: 16px;
         }
         input[type="text"]:focus {
             outline: none;
         }
         button {
             padding: 10px 15px;
-            background-color: #0056b3; /* Цвет кнопки */
-            color: white;
+            background-color: #4ECDC4;
             border: none;
             border-radius: 5px;
+            color: white;
+            font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #004494; /* Цвет кнопки при наведении */
+            background-color: #45b1a1;
         }
     </style>
 </head>
 <body>
-    <div class="chat-container" id="chat">
-        <!-- Сообщения будут добавлены здесь -->
-    </div>
-    <div class="input-container">
-        <input type="text" id="nickname" placeholder="Ваш ник" required>
-        <input type="text" id="message" placeholder="Введите сообщение..." required>
-        <button id="sendBtn">Отправить</button>
-    </div>
 
-    <script>
-        const chatContainer = document.getElementById('chat');
-        const messageInput = document.getElementById('message');
-        const nicknameInput = document.getElementById('nickname');
-        const sendBtn = document.getElementById('sendBtn');
+<header>Чат Приложение</header>
+<div class="chat-container" id="chat-container"></div>
+<div class="input-container">
+    <input type="text" id="nickname" placeholder="Ваш ник" />
+    <input type="text" id="message" placeholder="Введите сообщение" />
+    <button id="sendBtn">Отправить</button>
+</div>
 
-        sendBtn.addEventListener('click', () => {
-            const message = messageInput.value;
-            const nickname = nicknameInput.value || 'Аноним'; // Использовать 'Аноним', если ник не введен
+<script>
+    const chatContainer = document.getElementById('chat-container');
+    const sendBtn = document.getElementById('sendBtn');
+    const messageInput = document.getElementById('message');
+    const nicknameInput = document.getElementById('nickname');
 
-            if (message) {
-                const messageElement = document.createElement('div');
-                messageElement.classList.add('message');
-                messageElement.innerHTML = `<span class="nickname">${nickname}:</span> ${message}`;
-                chatContainer.appendChild(messageElement);
-                messageInput.value = ''; // Очистить поле ввода
-                chatContainer.scrollTop = chatContainer.scrollHeight; // Прокрутить вниз
-            }
-        });
+    sendBtn.addEventListener('click', () => {
+        const messageText = messageInput.value;
+        const nickname = nicknameInput.value || "Неизвестный";
 
-        // Обработка нажатия Enter
-        messageInput.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter') {
-                sendBtn.click();
-            }
-        });
-    </script>
+        if (messageText) {
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message my-message';
+            messageElement.innerHTML = `<strong>${nickname}:</strong> ${messageText}`;
+            chatContainer.appendChild(messageElement);
+            messageInput.value = ''; // Очистка поля ввода
+            chatContainer.scrollTop = chatContainer.scrollHeight; // Прокрутка вниз
+        }
+    });
+
+    messageInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendBtn.click();
+        }
+    });
+</script>
+
 </body>
 </html>
